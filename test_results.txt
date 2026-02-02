@@ -1,0 +1,13 @@
+============================================================
+SkillLens API Key Verification
+============================================================
+
+1. Checking API Keys in .env file...
+------------------------------------------------------------
+Traceback (most recent call last):
+  File "F:\SkilLens\test_api_keys.py", line 27, in <module>
+    print(f"\u2713 OpenAI API Key found: {openai_key[:20]}...")
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in position 0: character maps to <undefined>

@@ -1,0 +1,68 @@
+{
+  "dataset_info": {
+    "total_responses": 100,
+    "data_file": "F:\\SkilLens\\research\\data\\survey_data.csv"
+  },
+  "descriptive_stats": {
+    "resume_difficulty": {
+      "mean": 3.5,
+      "median": 3.5,
+      "std": 1.1055415967851334
+    },
+    "applications": {
+      "mean": 40.5,
+      "median": 40.5,
+      "std": 14.503569745188091
+    },
+    "shortlists": {
+      "mean": 2.34,
+      "median": 1.5,
+      "std": 2.4668304613922145
+    },
+    "success_rate": {
+      "mean": 9.525799999999998,
+      "median": 3.535
+    }
+  },
+  "binary_percentages": {
+    "Knows_Rejection_Reason": 24.0,
+    "Applied_No_Response": 76.0,
+    "Resume_Matches_JD": 24.0,
+    "Knows_Required_Skills": 48.0,
+    "ATS_Aware": 26.0,
+    "Guidance_Generic": 76.0,
+    "AI_Tool_Helps": 100.0
+  },
+  "correlations": {
+    "ATS_Aware_vs_Shortlists": {
+      "ATS_Yes": 6.076923076923077,
+      "ATS_No": 1.027027027027027
+    },
+    "Difficulty_vs_Shortlists": -0.9074370334073398,
+    "Skills_vs_Shortlists": {
+      "Skills_Yes": 4.25,
+      "Skills_No": 0.5769230769230769
+    },
+    "Applications_vs_Shortlists": -0.8766216647140975
+  },
+  "chi_square_tests": {
+    "ATS_vs_Success": {
+      "chi2": 9.388449684502314,
+      "p_value": 0.0021835677968490784,
+      "significant": true
+    },
+    "Skills_vs_Success": {
+      "chi2": 26.674345619658123,
+      "p_value": 2.407974956377916e-07,
+      "significant": true
+    }
+  },
+  "key_findings": [
+    "Only 24.0% of students know why they were rejected",
+    "76.0% feel current guidance is generic and not personalized",
+    "Only 26.0% are aware of ATS systems",
+    "Students with ATS awareness have 5.9x higher shortlisting rates",
+    "100.0% believe an AI-based tool would help them",
+    "Average success rate is only 9.53% (shortlists/applications)"
+  ]
+}
