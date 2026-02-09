@@ -43,6 +43,7 @@ class ResumeData(BaseModel):
     education: List[Education] = []
     certifications: List[str] = []
     embeddings: Optional[List[float]] = None
+    quality_score: Optional[float] = None
 
 
 class ResumeUploadResponse(BaseModel):

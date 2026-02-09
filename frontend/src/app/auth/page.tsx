@@ -59,7 +59,15 @@ export default function AuthPage() {
             // Redirect to dashboard
             router.push('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'An error occurred');
+            let message = 'An error occurred';
+            if (err.message) {
+                if (typeof err.message === 'object') {
+                    message = JSON.stringify(err.message);
+                } else {
+                    message = err.message;
+                }
+            }
+            setError(message);
         } finally {
             setLoading(false);
         }

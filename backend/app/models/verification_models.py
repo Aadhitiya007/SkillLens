@@ -8,11 +8,14 @@ from datetime import datetime
 from enum import Enum
 
 
+
 class QuestionType(str, Enum):
     """Question type enumeration."""
     MULTIPLE_CHOICE = "multiple_choice"
     CODE = "code"
     THEORETICAL = "theoretical"
+    CODING = "coding"
+    APTITUDE = "aptitude"
 
 
 class DifficultyLevel(str, Enum):
@@ -33,6 +36,7 @@ class Question(BaseModel):
     correct_answer: str
     explanation: str
     points: int = 10
+    code_template: Optional[str] = None # For coding questions
 
 
 class AssessmentRequest(BaseModel):
@@ -41,6 +45,12 @@ class AssessmentRequest(BaseModel):
     skill: str
     difficulty: DifficultyLevel = DifficultyLevel.INTERMEDIATE
     num_questions: int = Field(default=5, ge=1, le=20)
+
+
+class MockTestRequest(BaseModel):
+    """Request to generate comprehensive mock test."""
+    user_id: str
+    primary_skill: str
 
 
 class AssessmentResponse(BaseModel):
@@ -78,3 +88,5 @@ class AssessmentResult(BaseModel):
     passed: bool
     feedback: List[str]
     completed_at: datetime = Field(default_factory=datetime.utcnow)
+    recommendations: List[str] = []
+

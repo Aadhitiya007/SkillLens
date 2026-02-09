@@ -146,7 +146,7 @@ export default function DashboardPage() {
                     {/* Left Column - Readiness Gauge */}
                     <div className="lg:col-span-1 space-y-8">
                         <ReadinessGauge score={dashboardData.readinessScore} />
-                        <GitHubVerificationBox />
+                        <GitHubVerificationBox resumeSkills={dashboardData.matchedSkills} />
                     </div>
 
                     {/* Right Column - Skill Gap Chart */}
@@ -184,6 +184,12 @@ export default function DashboardPage() {
                             className="px-6 py-3 bg-blue-600 bg-opacity-30 backdrop-blur-sm border-2 border-white rounded-lg font-semibold hover:bg-opacity-40 transition-colors"
                         >
                             Analyze Resume
+                        </Link>
+                        <Link
+                            href="/mock-test"
+                            className="px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+                        >
+                            Take Mock Test
                         </Link>
                     </div>
                 </div>

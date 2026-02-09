@@ -8,13 +8,17 @@ echo ========================================
 echo.
 
 REM Common PostgreSQL installation paths
+set PG_PATH0=C:\Program Files\PostgreSQL\18\bin
 set PG_PATH1=C:\Program Files\PostgreSQL\16\bin
 set PG_PATH2=C:\Program Files\PostgreSQL\15\bin
 set PG_PATH3=C:\Program Files\PostgreSQL\14\bin
 set PG_PATH4=C:\PostgreSQL\16\bin
 
 REM Try to find PostgreSQL
-if exist "%PG_PATH1%\psql.exe" (
+if exist "%PG_PATH0%\psql.exe" (
+    set PG_BIN=%PG_PATH0%
+    echo Found PostgreSQL 18 at: %PG_PATH0%
+) else if exist "%PG_PATH1%\psql.exe" (
     set PG_BIN=%PG_PATH1%
     echo Found PostgreSQL 16 at: %PG_PATH1%
 ) else if exist "%PG_PATH2%\psql.exe" (

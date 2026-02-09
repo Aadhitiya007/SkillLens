@@ -111,7 +111,8 @@ app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"]
 # - skills: Needs PostgreSQL updates
 
 # from app.routers import predictions, verification, jobs, skills
+from app.routers import verification
 # app.include_router(predictions.router, prefix="/api/predictions", tags=["Predictions"])
-# app.include_router(verification.router, prefix="/api/verification", tags=["Verification"])
+app.include_router(verification.router, prefix="/api/verification", tags=["Verification"])
 # app.include_router(jobs.router, prefix="/api/jobs", tags=["Jobs"])
 # app.include_router(skills.router, prefix="/api/skills", tags=["Skills"])

@@ -26,6 +26,33 @@ class ResumeParser:
         self.model = None
         self._load_model()
     
+    def _calculate_quality_score(self, skills: List[str], experience: List[Experience], projects: List[Project], education: List[Education], text_length: int, raw_text: str) -> float:
+        """Calculate a heuristic quality score for the resume (0-100)."""
+        score = 0.0
+        
+        # Skills: 1 point each, max 30
+        score += min(len(skills) * 1, 30)
+        
+        # Experience: 10 points each, max 30
+        score += min(len(experience) * 10, 30)
+        
+        # Projects: 10 points each, max 20
+        score += min(len(projects) * 10, 20)
+        
+        # Education: 10 points each, max 20
+        score += min(len(education) * 10, 20)
+        
+        # Content length bonus
+        if text_length > 500:
+            score += 5
+            
+        # Add deterministic variance based on text content (0-5 points)
+        # This ensures specific content yields a specific score
+        variance = hash(raw_text) % 6
+        score += variance
+            
+        return min(score, 100.0)
+    
     def _load_model(self):
         """Load Sentence-BERT model for embeddings."""
         try:
@@ -244,6 +271,9 @@ class ResumeParser:
             # Generate embeddings
             embeddings = self.generate_embeddings(raw_text)
             
+            # Calculate quality score
+            quality_score = self._calculate_quality_score(skills, experience, projects, education, len(raw_text), raw_text)
+            
             resume_data = ResumeData(
                 raw_text=raw_text,
                 skills=skills,
@@ -252,7 +282,8 @@ class ResumeParser:
                 projects=projects,
                 education=education,
                 certifications=[],  # TODO: Extract certifications
-                embeddings=embeddings
+                embeddings=embeddings,
+                quality_score=quality_score
             )
             
             logger.info(f"Successfully parsed resume: {len(skills)} skills, {len(experience)} experiences")

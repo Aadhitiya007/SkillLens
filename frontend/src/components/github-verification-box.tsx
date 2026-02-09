@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Github, CheckCircle, XCircle, Search, ExternalLink, Calendar, Users, Book, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Github, CheckCircle, XCircle, Search, ExternalLink, Calendar, Users, Book, ShieldCheck, AlertTriangle, Sparkles } from 'lucide-react';
 
-export default function GitHubVerificationBox() {
+interface GitHubVerificationBoxProps {
+    resumeSkills?: string[];
+}
+
+export default function GitHubVerificationBox({ resumeSkills = [] }: GitHubVerificationBoxProps) {
     const [username, setUsername] = useState('');
     const [userData, setUserData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [verified, setVerified] = useState(false);
+    const [extraSkills, setExtraSkills] = useState<string[]>([]);
 
     const checkGitHub = async () => {
         if (!username) return;
@@ -30,6 +35,23 @@ export default function GitHubVerificationBox() {
 
             const data = await response.json();
             setUserData(data);
+
+            // Fetch repositories to analyze languages
+            const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=10`);
+            let foundSkills = new Set<string>();
+
+            if (reposResponse.ok) {
+                const repos = await reposResponse.json();
+                repos.forEach((repo: any) => {
+                    if (repo.language) foundSkills.add(repo.language);
+                });
+            }
+
+            // Calculate extra skills (found in GitHub but not in Resume)
+            const extra = Array.from(foundSkills).filter(
+                skill => !resumeSkills.some(rSkill => rSkill.toLowerCase() === skill.toLowerCase())
+            );
+            setExtraSkills(extra);
 
             // Verification logic: User exists and has at least one public repo
             if (data.public_repos > 0) {
@@ -164,9 +186,34 @@ export default function GitHubVerificationBox() {
                                 <span className="text-[10px] text-slate-500 uppercase tracking-wide font-medium">Joined</span>
                             </div>
                         </div>
+
+
+                        {/* Extra Skills Found */}
+                        {verified && extraSkills.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 animate-fadeIn">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Sparkles className="w-4 h-4 text-purple-500" />
+                                    <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                                        Found {extraSkills.length} Extra Skills
+                                    </span>
+                                </div>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {extraSkills.map(skill => (
+                                        <span key={skill} className="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full border border-purple-200 dark:border-purple-800">
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                                <p className="text-[10px] text-slate-500 mt-1 italic">
+                                    These skills were found in your GitHub but missing from your resume.
+                                </p>
+                            </div>
+                        )}
                     </div>
-                )}
+                )
+                }
             </div>
         </div>
     );
 }
+
