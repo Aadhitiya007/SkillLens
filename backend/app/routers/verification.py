@@ -121,10 +121,11 @@ async def submit_mock_test(submission: AssessmentSubmission):
         service = get_verification_service()
         # In a real app, retrieve from DB. For now, we regenerate to get the "correct" answers
         # This is a hack for the prototype
+        # Use submission.assessment_id to deterministically regenerate the same questions for fallback tests
         request = MockTestRequest(user_id=submission.user_id, primary_skill="Python") # Default skill
-        assessment = await service.generate_mock_test(request)
+        assessment = await service.generate_mock_test(request, assessment_id=submission.assessment_id)
         
-        # Override assessment ID for matching
+        # Override assessment ID for matching (redundant if passed above, but safe)
         assessment.assessment_id = submission.assessment_id
         
         result = await service.evaluate_assessment(submission, assessment)
