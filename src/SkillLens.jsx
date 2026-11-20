@@ -82,12 +82,14 @@ const saveTest = (t) => { const h = getTestHistory(); store.set("sl_tests", [t, 
 // ── REST API Fetcher (Bearer JWT) ──────────────────────────────────────────
 async function apiFetch(path, options = {}) {
   const token = getToken();
+  const apiBase = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+  const url = path.startsWith("http") ? path : `${apiBase}${path}`;
   const headers = {
     "Content-Type": "application/json",
     ...(token ? { "Authorization": `Bearer ${token}` } : {}),
     ...(options.headers || {})
   };
-  const r = await fetch(path, { ...options, headers });
+  const r = await fetch(url, { ...options, headers });
   if (r.status === 401) {
     clearAuth();
     window.location.reload();
