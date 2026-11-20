@@ -1,12 +1,12 @@
 {
   "name": "skilllens",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint src",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,8 +15,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
